@@ -1,0 +1,10 @@
+{
+  "name": "bookstore-redis-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tarea 5 - backend (Netlify Functions + Redis Cloud + Neon)",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "ioredis": "^5.6.1"
+  }
+}
