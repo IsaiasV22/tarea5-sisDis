@@ -15,8 +15,12 @@ exports.handler = async (event, context) => {
   try {
     const a = JSON.parse(event.body);
 
+    // Idempotente: si el mensaje se procesa dos veces, la fila queda igual.
     await sql`INSERT INTO authors (id, author, nationality, birth_year, fields)
-      VALUES (${num(a.id)}, ${a.author}, ${a.nationality}, ${num(a.birth_year)}, ${a.fields})`;
+      VALUES (${num(a.id)}, ${a.author}, ${a.nationality}, ${num(a.birth_year)}, ${a.fields})
+      ON CONFLICT (id) DO UPDATE SET
+        author = EXCLUDED.author, nationality = EXCLUDED.nationality,
+        birth_year = EXCLUDED.birth_year, fields = EXCLUDED.fields`;
 
     return { statusCode: 200, headers, body: 'OK'};
   } catch (error) {
